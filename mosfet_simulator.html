@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple MOSFET V-I Characteristics Simulator</title>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --secondary-color: #475569;
+      --paper: #ffffff;
+      --text-primary: #1e293b;
+      --border-color: #e2e8f0;
+      --section-bg: #f1f5f9;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f2ff, #f8fafc);
+      color: var(--text-primary);
+      margin: 0;
+      padding: 1rem;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: var(--paper);
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      text-align: center;
+      color: var(--text-primary);
+      margin-bottom: 2rem;
+    }
+    
+    .section {
+      background-color: var(--section-bg);
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+    
+    h2 {
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
+      margin-top: 0;
+    }
+    
+    .control-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    input[type="range"] {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to right, var(--primary-color), var(--primary-hover));
+      appearance: none;
+      outline: none;
+      cursor: pointer;
+    }
+    
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+    
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+    
+    .reading-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .reading-display p {
+      background-color: var(--paper);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .reading-display span {
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    #circuit-container {
+      width: 100%;
+      height: 350px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    #circuit-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    
+    #viChart {
+      width: 100% !important;
+      height: 400px !important;
+      background-color: var(--paper);
+      padding: 0.5rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      margin-top: 1rem;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+    
+    th {
+      background-color: #e5effd;
+      position: sticky;
+      top: 0;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    
+    @keyframes highlight {
+      0% { background-color: rgba(37, 99, 235, 0.2); }
+      100% { background-color: transparent; }
+    }
+    
+    .highlight {
+      animation: highlight 1s ease-out;
+    }
+    
+    .component-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    
+    h3 {
+      margin-top: 1.5rem;
+      color: var(--text-primary);
+      font-size: 1.1rem;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    
+    .efficiency-bar {
+      height: 12px;
+      background-color: #f1f1f1;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    
+    #efficiencyFill {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      border-radius: 6px;
+      transition: width 0.3s ease;
+    }
+    
+    .advanced-mode .component-controls {
+      max-height: 1000px;
+      opacity: 1;
+      transition: max-height 0.5s ease, opacity 0.5s ease;
+    }
+    
+    @media (max-width: 768px) {
+      .component-controls {
+        grid-template-columns: 1fr;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+    }
+    
+    .highlight-optimized {
+      animation: pulse 1.5s ease-in-out;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 transparent; }
+      50% { box-shadow: 0 0 8px rgba(37, 99, 235, 0.5); }
+    }
+    
+    .info-tooltip {
+      position: relative;
+      display: inline-block;
+      margin-left: 5px;
+      width: 16px;
+      height: 16px;
+      background-color: #cbd5e1;
+      color: #1e293b;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 12px;
+      line-height: 16px;
+      cursor: help;
+    }
+    
+    .info-tooltip::after {
+      content: "i";
+      font-style: italic;
+      font-weight: bold;
+    }
+    
+    .info-tooltip .tooltip-text {
+      visibility: hidden;
+      width: 200px;
+      background-color: #1e293b;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 12px;
+      font-weight: normal;
+    }
+    
+    .info-tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MOSFET V-I Characteristics Simulator</h1>
+    
+    <!-- Circuit Diagram -->
+    <div class="section">
+      <h2>Circuit Diagram</h2>
+      <div id="circuit-container">
+        <svg id="circuit-svg" viewBox="0 0 600 300">
+          <!-- Background -->
+          <rect x="0" y="0" width="600" height="300" fill="#f8fafc" />
+          
+          <!-- MOSFET -->
+          <g transform="translate(300,150)">
+            <!-- Drain -->
+            <line x1="0" y1="-50" x2="0" y2="-20" stroke="#1e293b" stroke-width="2" />
+            <!-- Source -->
+            <line x1="0" y1="20" x2="0" y2="50" stroke="#1e293b" stroke-width="2" />
+            <!-- Gate -->
+            <line x1="-40" y1="0" x2="-10" y2="0" stroke="#1e293b" stroke-width="2" />
+            <!-- Channel -->
+            <line x1="-7" y1="-20" x2="-7" y2="20" stroke="#1e293b" stroke-width="2" />
+            <!-- Body -->
+            <rect x="-7" y="-20" width="14" height="40" fill="none" stroke="#1e293b" stroke-width="1.5" />
+            <!-- Arrow -->
+            <polyline points="0,7 7,0 0,-7" fill="none" stroke="#1e293b" stroke-width="1.5" />
+            <!-- Drain Label -->
+            <text x="10" y="-25" font-family="Arial" font-size="10" text-anchor="start">D</text>
+            <!-- Source Label -->
+            <text x="10" y="30" font-family="Arial" font-size="10" text-anchor="start">S</text>
+            <!-- Gate Label -->
+            <text x="-25" y="-5" font-family="Arial" font-size="10" text-anchor="middle">G</text>
+          </g>
+          
+          <!-- VGS Source with Polarity -->
+          <g transform="translate(200,150)">
+            <circle cx="0" cy="0" r="20" fill="white" stroke="#2563eb" stroke-width="1.5" />
+            <text x="0" y="5" font-family="Arial" font-size="12" text-anchor="middle">VGS</text>
+            <!-- Polarity Marks -->
+            <line x1="-5" y1="-15" x2="5" y2="-15" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="0" y1="-20" x2="0" y2="-10" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-5" y1="15" x2="5" y2="15" stroke="#1e293b" stroke-width="1.5" />
+          </g>
+          
+          <!-- VDS Source with Polarity -->
+          <g transform="translate(450,100)">
+            <circle cx="0" cy="0" r="20" fill="white" stroke="#2563eb" stroke-width="1.5" />
+            <text x="0" y="5" font-family="Arial" font-size="12" text-anchor="middle">VDS</text>
+            <!-- Polarity Marks -->
+            <line x1="-5" y1="-15" x2="5" y2="-15" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="0" y1="-20" x2="0" y2="-10" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-5" y1="15" x2="5" y2="15" stroke="#1e293b" stroke-width="1.5" />
+          </g>
+          
+          <!-- Load Resistor with Label -->
+          <g transform="translate(450,170)">
+            <line x1="0" y1="-20" x2="0" y2="-10" stroke="#1e293b" stroke-width="1.5" />
+            <path d="M0,-10 L-5,-7 L5,-3 L-5,1 L5,5 L-5,9 L5,13 L0,15" fill="none" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="0" y1="15" x2="0" y2="30" stroke="#1e293b" stroke-width="1.5" />
+            <text x="15" y="5" font-family="Arial" font-size="10" text-anchor="start">RL = <tspan id="svg-rl">1.0</tspan> kΩ</text>
+          </g>
+
+          <!-- Gate Resistor -->
+          <g transform="translate(250,150)">
+            <path d="M0,0 L-5,-3 L5,-9 L-5,-15 L5,-21 L-5,-27 L0,-30" fill="none" stroke="#1e293b" stroke-width="1.5" transform="rotate(90)" />
+            <text x="0" y="-15" font-family="Arial" font-size="10" text-anchor="middle">RG = <tspan id="svg-rg">100</tspan> kΩ</text>
+          </g>
+          
+          <!-- Ground Symbols -->
+          <g transform="translate(200,220)">
+            <line x1="0" y1="0" x2="0" y2="10" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-10" y1="10" x2="10" y2="10" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-7" y1="14" x2="7" y2="14" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-3" y1="18" x2="3" y2="18" stroke="#1e293b" stroke-width="1.5" />
+          </g>
+          
+          <g transform="translate(300,220)">
+            <line x1="0" y1="0" x2="0" y2="10" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-10" y1="10" x2="10" y2="10" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-7" y1="14" x2="7" y2="14" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-3" y1="18" x2="3" y2="18" stroke="#1e293b" stroke-width="1.5" />
+          </g>
+          
+          <g transform="translate(450,220)">
+            <line x1="0" y1="0" x2="0" y2="10" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-10" y1="10" x2="10" y2="10" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-7" y1="14" x2="7" y2="14" stroke="#1e293b" stroke-width="1.5" />
+            <line x1="-3" y1="18" x2="3" y2="18" stroke="#1e293b" stroke-width="1.5" />
+          </g>
+          
+          <!-- Connecting Wires -->
+          <g stroke="#1e293b" stroke-width="1.5">
+            <!-- VGS to Gate Resistor -->
+            <line x1="220" y1="150" x2="235" y2="150" />
+            <!-- Gate Resistor to MOSFET -->
+            <line x1="265" y1="150" x2="260" y2="150" />
+            <!-- VGS to Ground -->
+            <line x1="200" y1="170" x2="200" y2="220" />
+            <!-- Source to Ground -->
+            <line x1="300" y1="200" x2="300" y2="220" />
+            <!-- Drain to VDS -->
+            <line x1="300" y1="100" x2="450" y2="100" />
+            <line x1="300" y1="100" x2="300" y2="130" />
+            <!-- VDS to Resistor -->
+            <line x1="450" y1="120" x2="450" y2="150" />
+            <!-- Resistor to Ground -->
+            <line x1="450" y1="200" x2="450" y2="220" />
+            <!-- Power Path highlight -->
+            <path d="M450,80 L475,80 L475,240 L425,240 L425,220" stroke="#2563eb" stroke-width="1" stroke-dasharray="3,3" fill="none" />
+          </g>
+          
+          <!-- Parameters Box -->
+          <g>
+            <rect x="50" y="50" width="200" height="60" fill="white" stroke="#2563eb" stroke-width="1" rx="5" ry="5" />
+            <text x="60" y="70" font-family="Arial" font-size="12" font-weight="bold">MOSFET Parameters:</text>
+            <text x="60" y="90" font-family="Arial" font-size="10">Vth = <tspan id="svg-vth">2.0</tspan>V, K = <tspan id="svg-k">0.5</tspan> mA/V², λ = <tspan id="svg-lambda">0.02</tspan> V⁻¹</text>
+          </g>
+          
+          <!-- Values Box -->
+          <g>
+            <rect x="350" y="50" width="200" height="60" fill="white" stroke="#2563eb" stroke-width="1" rx="5" ry="5" />
+            <text x="360" y="70" font-family="Arial" font-size="12" font-weight="bold">Current Values:</text>
+            <text x="360" y="90" font-family="Arial" font-size="10">VGS = <tspan id="svg-vgs">3.0</tspan>V, VDS = <tspan id="svg-vds">5.0</tspan>V, ID = <tspan id="svg-id">0.5</tspan>mA</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Controls -->
+    <div class="section">
+      <h2>Control Panel</h2>
+      <div class="control-group">
+        <label for="vgs">Gate-Source Voltage (VGS): <span id="vgsVal">2.0</span> V</label>
+        <input type="range" id="vgs" min="0" max="10" step="0.1" value="2">
+      </div>
+      
+      <div class="control-group">
+        <label for="vds">Drain-Source Voltage (VDS): <span id="vdsVal">0.0</span> V</label>
+        <input type="range" id="vds" min="0" max="10" step="0.1" value="0">
+      </div>
+      
+      <h3>Component Values</h3>
+      <div class="component-controls">
+        <div class="control-group">
+          <label for="vth">Threshold Voltage (Vth): <span id="vthVal">2.0</span> V</label>
+          <input type="range" id="vth" min="0.5" max="4" step="0.1" value="2.0">
+        </div>
+        
+        <div class="control-group">
+          <label for="k">Transconductance (K): <span id="kVal">0.50</span> mA/V²</label>
+          <input type="range" id="k" min="0.1" max="1.0" step="0.05" value="0.5">
+        </div>
+        
+        <div class="control-group">
+          <label for="lambda">Channel Length Modulation (λ): <span id="lambdaVal">0.02</span> V⁻¹</label>
+          <input type="range" id="lambda" min="0" max="0.05" step="0.001" value="0.02">
+        </div>
+        
+        <div class="control-group">
+          <label for="rload">Load Resistance (RL): <span id="rloadVal">1.0</span> kΩ</label>
+          <input type="range" id="rload" min="0.1" max="10" step="0.1" value="1.0">
+        </div>
+        
+        <div class="control-group">
+          <label for="rgate">Gate Resistance (RG): <span id="rgateVal">100</span> kΩ</label>
+          <input type="range" id="rgate" min="10" max="1000" step="10" value="100">
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <label for="efficiency">Circuit Efficiency: <span id="efficiencyVal">--</span> %</label>
+        <div class="efficiency-bar">
+          <div id="efficiencyFill" style="width: 0%"></div>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button id="simulateBtn">Simulate</button>
+        <button id="resetBtn">Reset</button>
+        <button id="optimizeBtn">Optimize Circuit</button>
+      </div>
+    </div>
+    
+    <!-- Readings -->
+    <div class="section">
+      <h2>Readings</h2>
+      <div class="reading-display">
+        <p>Drain Current (ID): <span id="id">0.00</span> mA</p>
+        <p>Operation Mode: <span id="operationMode">-</span></p>
+      </div>
+    </div>
+    
+    <!-- Graph -->
+    <div class="section">
+      <h2>V-I Characteristics</h2>
+      <canvas id="viChart"></canvas>
+    </div>
+    
+    <!-- Table -->
+    <div class="section">
+      <h2>Observation Table</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>VGS (V)</th>
+              <th>VDS (V)</th>
+              <th>ID (mA)</th>
+              <th>Region</th>
+              <th>Efficiency (%)</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // MOSFET Parameters
+    const MOSFET_PARAMS = {
+      Vth: 2.0,           // Threshold voltage (V)
+      k: 0.5,             // Transconductance parameter (mA/V²)
+      lambda: 0.02,       // Channel length modulation parameter (1/V)
+      RLoad: 1.0,         // Load resistance (kΩ)
+      RGate: 100          // Gate resistance (kΩ)
+    };
+    
+    // DOM Elements
+    const elements = {
+      vgsSlider: document.getElementById('vgs'),
+      vdsSlider: document.getElementById('vds'),
+      vgsVal: document.getElementById('vgsVal'),
+      vdsVal: document.getElementById('vdsVal'),
+      vthSlider: document.getElementById('vth'),
+      vthVal: document.getElementById('vthVal'),
+      kSlider: document.getElementById('k'),
+      kVal: document.getElementById('kVal'),
+      lambdaSlider: document.getElementById('lambda'),
+      lambdaVal: document.getElementById('lambdaVal'),
+      rloadSlider: document.getElementById('rload'),
+      rloadVal: document.getElementById('rloadVal'),
+      rgateSlider: document.getElementById('rgate'),
+      rgateVal: document.getElementById('rgateVal'),
+      idDisplay: document.getElementById('id'),
+      operationMode: document.getElementById('operationMode'),
+      tableBody: document.getElementById('tableBody'),
+      simulateBtn: document.getElementById('simulateBtn'),
+      resetBtn: document.getElementById('resetBtn'),
+      optimizeBtn: document.getElementById('optimizeBtn'),
+      svgVgs: document.getElementById('svg-vgs'),
+      svgVds: document.getElementById('svg-vds'),
+      svgId: document.getElementById('svg-id'),
+      efficiencyVal: document.getElementById('efficiencyVal'),
+      efficiencyFill: document.getElementById('efficiencyFill')
+    };
+    
+    // Chart data
+    let chart = null;
+    let dataPoints = [];
+    let currentVgs = 2.0;
+    
+    // Initialize
+    function init() {
+      // Set up event listeners
+      elements.vgsSlider.addEventListener('input', updateVgsDisplay);
+      elements.vdsSlider.addEventListener('input', updateVdsDisplay);
+      elements.vthSlider.addEventListener('input', updateVthDisplay);
+      elements.kSlider.addEventListener('input', updateKDisplay);
+      elements.lambdaSlider.addEventListener('input', updateLambdaDisplay);
+      elements.rloadSlider.addEventListener('input', updateRloadDisplay);
+      elements.rgateSlider.addEventListener('input', updateRgateDisplay);
+      
+      elements.simulateBtn.addEventListener('click', runSimulation);
+      elements.resetBtn.addEventListener('click', resetSimulation);
+      elements.optimizeBtn.addEventListener('click', optimizeCircuit);
+      
+      // Initialize chart
+      initChart();
+      
+      // Initial display updates
+      updateVgsDisplay();
+      updateVdsDisplay();
+      updateVthDisplay();
+      updateKDisplay();
+      updateLambdaDisplay();
+      updateRloadDisplay();
+      updateRgateDisplay();
+      
+      // Add tooltips to all parameters
+      addTooltips();
+    }
+    
+    function updateVgsDisplay() {
+      elements.vgsVal.textContent = parseFloat(elements.vgsSlider.value).toFixed(1);
+    }
+    
+    function updateVdsDisplay() {
+      elements.vdsVal.textContent = parseFloat(elements.vdsSlider.value).toFixed(1);
+    }
+    
+    function updateVthDisplay() {
+      MOSFET_PARAMS.Vth = parseFloat(elements.vthSlider.value);
+      elements.vthVal.textContent = MOSFET_PARAMS.Vth.toFixed(1);
+      // Update SVG
+      document.getElementById('svg-vth').textContent = MOSFET_PARAMS.Vth.toFixed(1);
+    }
+    
+    function updateKDisplay() {
+      MOSFET_PARAMS.k = parseFloat(elements.kSlider.value);
+      elements.kVal.textContent = MOSFET_PARAMS.k.toFixed(2);
+      // Update SVG
+      document.getElementById('svg-k').textContent = MOSFET_PARAMS.k.toFixed(1);
+    }
+    
+    function updateLambdaDisplay() {
+      MOSFET_PARAMS.lambda = parseFloat(elements.lambdaSlider.value);
+      elements.lambdaVal.textContent = MOSFET_PARAMS.lambda.toFixed(3);
+      // Update SVG
+      document.getElementById('svg-lambda').textContent = MOSFET_PARAMS.lambda.toFixed(2);
+    }
+    
+    function updateRloadDisplay() {
+      MOSFET_PARAMS.RLoad = parseFloat(elements.rloadSlider.value);
+      elements.rloadVal.textContent = MOSFET_PARAMS.RLoad.toFixed(1);
+      // Update SVG
+      document.getElementById('svg-rl').textContent = MOSFET_PARAMS.RLoad.toFixed(1);
+    }
+    
+    function updateRgateDisplay() {
+      MOSFET_PARAMS.RGate = parseFloat(elements.rgateSlider.value);
+      elements.rgateVal.textContent = MOSFET_PARAMS.RGate.toFixed(0);
+      // Update SVG
+      document.getElementById('svg-rg').textContent = MOSFET_PARAMS.RGate.toFixed(0);
+    }
+    
+    function calculateID(vgs, vds) {
+      // If VGS is below threshold, the transistor is OFF (cut-off region)
+      if (vgs < MOSFET_PARAMS.Vth) {
+        return {
+          current: 0,
+          region: 'Cut-off',
+          efficiency: 0
+        };
+      }
+      
+      // Determine operation region and calculate current
+      if (vds < (vgs - MOSFET_PARAMS.Vth)) {
+        // Triode (linear) region
+        const id = MOSFET_PARAMS.k * (
+          (vgs - MOSFET_PARAMS.Vth) * vds - 
+          (vds ** 2) / 2
+        ) * (1 + MOSFET_PARAMS.lambda * vds);
+        
+        // Calculate power and efficiency
+        const powerIn = vds * id;  // mW
+        const powerLoss = id * id * (MOSFET_PARAMS.RLoad / 1000); // Convert kΩ to Ω for power calc
+        const efficiency = powerIn > 0 ? ((powerIn - powerLoss) / powerIn) * 100 : 0;
+        
+        return {
+          current: id,
+          region: 'Triode',
+          efficiency: efficiency
+        };
+      } else {
+        // Saturation region with channel length modulation
+        const id = 0.5 * MOSFET_PARAMS.k * 
+          (vgs - MOSFET_PARAMS.Vth) ** 2 * 
+          (1 + MOSFET_PARAMS.lambda * vds);
+        
+        // Calculate power and efficiency
+        const powerIn = vds * id;  // mW
+        const powerOut = id * id * (MOSFET_PARAMS.RLoad / 1000); // Convert kΩ to Ω for power calc
+        const efficiency = powerIn > 0 ? (powerOut / powerIn) * 100 : 0;
+        
+        return {
+          current: id,
+          region: 'Saturation',
+          efficiency: efficiency
+        };
+      }
+    }
+    
+    function runSimulation() {
+      const vgs = parseFloat(elements.vgsSlider.value);
+      const vds = parseFloat(elements.vdsSlider.value);
+      
+      // Calculate drain current, operation region, and efficiency
+      const result = calculateID(vgs, vds);
+      const id = result.current;
+      const efficiency = result.efficiency;
+      
+      // Update UI
+      elements.idDisplay.textContent = id.toFixed(2);
+      elements.operationMode.textContent = result.region;
+      elements.efficiencyVal.textContent = efficiency.toFixed(1);
+      elements.efficiencyFill.style.width = `${Math.min(efficiency, 100)}%`;
+      
+      // Apply highlight effect
+      elements.idDisplay.parentElement.classList.add('highlight');
+      elements.operationMode.parentElement.classList.add('highlight');
+      
+      // Remove highlight after animation
+      setTimeout(() => {
+        elements.idDisplay.parentElement.classList.remove('highlight');
+        elements.operationMode.parentElement.classList.remove('highlight');
+      }, 1000);
+      
+      // Update SVG circuit values
+      elements.svgVgs.textContent = vgs.toFixed(1);
+      elements.svgVds.textContent = vds.toFixed(1);
+      elements.svgId.textContent = id.toFixed(2);
+      
+      // Add to table
+      addToTable(vgs, vds, id, result.region, efficiency);
+      
+      // Update chart
+      updateChart(vgs, vds, id);
+    }
+    
+    function addToTable(vgs, vds, id, region, efficiency) {
+      const row = elements.tableBody.insertRow(0); // Insert at top
+      row.classList.add('highlight');
+      
+      const vgsCell = row.insertCell(0);
+      const vdsCell = row.insertCell(1);
+      const idCell = row.insertCell(2);
+      const regionCell = row.insertCell(3);
+      const efficiencyCell = row.insertCell(4);
+      
+      vgsCell.textContent = vgs.toFixed(1);
+      vdsCell.textContent = vds.toFixed(1);
+      idCell.textContent = id.toFixed(2);
+      regionCell.textContent = region;
+      efficiencyCell.textContent = efficiency.toFixed(1);
+      
+      // Remove highlight after animation
+      setTimeout(() => {
+        row.classList.remove('highlight');
+      }, 1000);
+    }
+    
+    function initChart() {
+      const ctx = document.getElementById('viChart').getContext('2d');
+      
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          datasets: [{
+            label: `VGS = ${elements.vgsSlider.value}V`,
+            data: [],
+            borderColor: '#2563eb',
+            backgroundColor: '#2563eb',
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'MOSFET Characteristic Curves'
+            },
+            tooltip: {
+              callbacks: {
+                afterLabel: function(context) {
+                  const vgs = parseFloat(context.dataset.label.split('=')[1].replace('V', '').trim());
+                  const vds = context.parsed.x;
+                  const result = calculateID(vgs, vds);
+                  return `Efficiency: ${result.efficiency.toFixed(1)}%\nRegion: ${result.region}`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              type: 'linear',
+              title: {
+                display: true,
+                text: 'Drain-Source Voltage (VDS) [V]'
+              },
+              min: 0,
+              max: 10
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Drain Current (ID) [mA]'
+              },
+              min: 0
+            }
+          }
+        }
+      });
+    }
+    
+    function updateChart(vgs, vds, id) {
+      // Check if VGS has changed
+      if (vgs !== currentVgs && chart.data.datasets[0].data.length > 0) {
+        // Start a new dataset
+        chart.data.datasets.push({
+          label: `VGS = ${vgs.toFixed(1)}V`,
+          data: [],
+          borderColor: getRandomColor(),
+          backgroundColor: getRandomColor(),
+          tension: 0.4
+        });
+        
+        currentVgs = vgs;
+      }
+      
+      // Add data point to current dataset
+      const datasetIndex = chart.data.datasets.length - 1;
+      
+      chart.data.datasets[datasetIndex].data.push({
+        x: vds,
+        y: id
+      });
+      
+      // Sort points by x value to ensure proper line drawing
+      chart.data.datasets[datasetIndex].data.sort((a, b) => a.x - b.x);
+      
+      // Update chart
+      chart.update();
+    }
+    
+    function optimizeCircuit() {
+      // Optimization logic - find best efficiency
+      let bestEfficiency = 0;
+      let bestParams = {...MOSFET_PARAMS};
+      let bestVgs = parseFloat(elements.vgsSlider.value);
+      let bestVds = parseFloat(elements.vdsSlider.value);
+      
+      // Simple optimization sweep
+      for (let vth = 1.0; vth <= 3.0; vth += 0.5) {
+        for (let k = 0.3; k <= 0.7; k += 0.1) {
+          for (let lambda = 0.01; lambda <= 0.03; lambda += 0.005) {
+            for (let rload = 0.5; rload <= 3.0; rload += 0.5) {
+              // Apply temp parameters
+              MOSFET_PARAMS.Vth = vth;
+              MOSFET_PARAMS.k = k;
+              MOSFET_PARAMS.lambda = lambda;
+              MOSFET_PARAMS.RLoad = rload;
+              
+              // Test a few operating points
+              for (let vgs = vth; vgs <= 5; vgs += 0.5) {
+                for (let vds = 1; vds <= 8; vds += 1) {
+                  const result = calculateID(vgs, vds);
+                  if (result.efficiency > bestEfficiency && result.current > 0.1) {
+                    bestEfficiency = result.efficiency;
+                    bestParams = {...MOSFET_PARAMS};
+                    bestVgs = vgs;
+                    bestVds = vds;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      // Apply the best parameters
+      MOSFET_PARAMS.Vth = bestParams.Vth;
+      MOSFET_PARAMS.k = bestParams.k;
+      MOSFET_PARAMS.lambda = bestParams.lambda;
+      MOSFET_PARAMS.RLoad = bestParams.RLoad;
+      
+      // Update UI sliders
+      elements.vthSlider.value = bestParams.Vth;
+      elements.kSlider.value = bestParams.k;
+      elements.lambdaSlider.value = bestParams.lambda;
+      elements.rloadSlider.value = bestParams.RLoad;
+      elements.vgsSlider.value = bestVgs;
+      elements.vdsSlider.value = bestVds;
+      
+      // Update displays
+      updateVthDisplay();
+      updateKDisplay();
+      updateLambdaDisplay();
+      updateRloadDisplay();
+      updateVgsDisplay();
+      updateVdsDisplay();
+      
+      // Highlight optimized parameters
+      document.querySelectorAll('.control-group').forEach(group => {
+        group.classList.add('highlight-optimized');
+        setTimeout(() => {
+          group.classList.remove('highlight-optimized');
+        }, 1500);
+      });
+      
+      // Run simulation with optimized values
+      runSimulation();
+    }
+    
+    function resetSimulation() {
+      // Clear chart
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data = [];
+      });
+      
+      // Keep only one dataset
+      chart.data.datasets = [chart.data.datasets[0]];
+      chart.data.datasets[0].label = `VGS = ${elements.vgsSlider.value}V`;
+      
+      // Update chart
+      chart.update();
+      
+      // Clear table
+      elements.tableBody.innerHTML = '';
+      
+      // Reset current VGS
+      currentVgs = parseFloat(elements.vgsSlider.value);
+      
+      // Reset parameters to default
+      MOSFET_PARAMS.Vth = 2.0;
+      MOSFET_PARAMS.k = 0.5;
+      MOSFET_PARAMS.lambda = 0.02;
+      MOSFET_PARAMS.RLoad = 1.0;
+      MOSFET_PARAMS.RGate = 100;
+      
+      // Update sliders
+      elements.vthSlider.value = MOSFET_PARAMS.Vth;
+      elements.kSlider.value = MOSFET_PARAMS.k;
+      elements.lambdaSlider.value = MOSFET_PARAMS.lambda;
+      elements.rloadSlider.value = MOSFET_PARAMS.RLoad;
+      elements.rgateSlider.value = MOSFET_PARAMS.RGate;
+      
+      // Update displays
+      updateVthDisplay();
+      updateKDisplay();
+      updateLambdaDisplay();
+      updateRloadDisplay();
+      updateRgateDisplay();
+      
+      // Reset efficiency
+      elements.efficiencyVal.textContent = "--";
+      elements.efficiencyFill.style.width = "0%";
+    }
+    
+    function addTooltips() {
+      // Create tooltip containers next to parameters
+      const tooltips = [
+        { selector: '#vth', text: 'Minimum gate voltage required to turn on the MOSFET. Lower values allow operation at lower voltages but may increase leakage.' },
+        { selector: '#k', text: 'Affects current flow capability. Higher values increase drain current for a given VGS.' },
+        { selector: '#lambda', text: 'Accounts for channel length modulation. Higher values increase current in saturation region as VDS increases.' },
+        { selector: '#rload', text: 'Load resistance affects voltage division and power dissipation. Higher values reduce current but increase voltage drop.' },
+        { selector: '#rgate', text: 'Gate resistance controls gate charging/discharging speed. Lower values improve switching speed but increase gate current.' }
+      ];
+      
+      tooltips.forEach(tooltip => {
+        const element = document.querySelector(`label[for="${tooltip.selector.substring(1)}"]`);
+        if (element) {
+          const tooltipSpan = document.createElement('span');
+          tooltipSpan.className = 'info-tooltip';
+          const tooltipText = document.createElement('span');
+          tooltipText.className = 'tooltip-text';
+          tooltipText.textContent = tooltip.text;
+          tooltipSpan.appendChild(tooltipText);
+          element.appendChild(tooltipSpan);
+        }
+      });
+    }
+    
+    function getRandomColor() {
+      const colors = [
+        '#2563eb', '#9333ea', '#ec4899', '#ef4444', 
+        '#f97316', '#eab308', '#14b8a6', '#3b82f6'
+      ];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+    
+    // Load Chart.js from CDN
+    function loadScript(url) {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = url;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    }
+    
+    loadScript('https://cdn.jsdelivr.net/npm/chart.js')
+      .then(() => {
+        init();
+      })
+      .catch(() => {
+        alert('Failed to load Chart.js. Please check your internet connection.');
+      });
+  </script>
+</body>
+</html> 

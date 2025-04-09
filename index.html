@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Electronic Circuit Simulation Lab - Educational platform for learning electronics">
+  <title>Electronic Circuit Simulation Lab</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js" defer></script>
+  <script src="home.js" defer></script>
+</head>
+<body>
+  <!-- Profile Sidebar -->
+  <div class="profile-sidebar" id="profileSidebar">
+    <div class="profile-content">
+      <button class="close-sidebar" id="closeSidebar">&times;</button>
+      <div class="sidebar-avatar">
+        <img src="images/avatar.jpg" alt="User Profile Avatar">
+      </div>
+      <div class="profile-header">
+        <div class="profile-info">
+          <h2>Shubham Patel</h2>
+          <div class="user-level">ADVANCED LEVEL</div>
+          <p class="user-title">Electronics and Computer Science Engineering Student</p>
+          <div class="progress-container">
+            <span>Progress to next level:</span>
+            <span>75%</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 75%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="profile-stats">
+        <div class="stat-card">
+          <span class="stat-value">12</span>
+          <span class="stat-label">Completed</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">3</span>
+          <span class="stat-label">In Progress</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Pending</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Page Overlay -->
+  <div class="page-overlay" id="pageOverlay"></div>
+  
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-content">
+      <div class="logo-container">
+        <h1 class="site-title">Electronic Circuit Simulation Lab</h1>
+        <p class="college-name">Shree L.R Tiwari College Of Engineering</p>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="mosfet_simulator.html">MOSFET Simulator</a></li>
+          <li><a href="#">BJT Simulator</a></li>
+          <li><a href="#">Op-Amp Circuits</a></li>
+          <li><a href="#">Logic Gates</a></li>
+        </ul>
+      </nav>
+      <!-- Avatar Toggle Button -->
+      <div class="avatar-toggle" id="profileAvatar">
+        <img src="images/avatar.jpg" alt="User Profile Avatar">
+      </div>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <main class="container dashboard">
+    <!-- Circuit Showcase Section -->
+    <section class="section showcase-section">
+      <h2>Circuit Diagrams</h2>
+      <div class="showcase-container">
+        <!-- MOSFET Circuits Category -->
+        <div class="showcase-category">
+          <h3>MOSFET Circuits</h3>
+          <div class="showcase-grid">
+            <div class="circuit-card" data-circuit="mosfet-amplifier">
+              <div class="circuit-image">
+                <img src="images/mosfet_circuit.svg" alt="MOSFET Circuit">
+              </div>
+              <div class="circuit-info">
+                <h4>MOSFET Amplifier</h4>
+                <p>Common source amplifier configuration</p>
+              </div>
+            </div>
+            <div class="circuit-card" data-circuit="current-mirror">
+              <div class="circuit-image">
+                <img src="images/current_mirror.svg" alt="Current Mirror Circuit">
+              </div>
+              <div class="circuit-info">
+                <h4>Current Mirror</h4>
+                <p>Basic MOSFET current mirror design</p>
+              </div>
+            </div>
+            <div class="circuit-card" data-circuit="cmos-inverter">
+              <div class="circuit-image">
+                <img src="images/cmos_inverter.svg" alt="CMOS Inverter">
+              </div>
+              <div class="circuit-info">
+                <h4>CMOS Inverter</h4>
+                <p>Complementary MOS logic inverter</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Amplifier Designs Category -->
+        <div class="showcase-category">
+          <h3>Amplifier Designs</h3>
+          <div class="showcase-grid">
+            <div class="circuit-card" data-circuit="differential-amplifier">
+              <div class="circuit-image">
+                <img src="images/differential_amplifier.svg" alt="Differential Amplifier">
+              </div>
+              <div class="circuit-info">
+                <h4>Differential Amplifier</h4>
+                <p>MOSFET-based differential pair</p>
+              </div>
+            </div>
+            <div class="circuit-card" data-circuit="common-source">
+              <div class="circuit-image">
+                <img src="images/common_source.svg" alt="Common Source Amplifier">
+              </div>
+              <div class="circuit-info">
+                <h4>Common Source</h4>
+                <p>Single-stage amplifier with bias</p>
+              </div>
+            </div>
+            <div class="circuit-card" data-circuit="jfet-amplifier">
+              <div class="circuit-image">
+                <img src="images/jfet.svg" alt="JFET Amplifier">
+              </div>
+              <div class="circuit-info">
+                <h4>JFET Amplifier</h4>
+                <p>Junction FET-based amplifier circuit</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Special Circuits Category -->
+        <div class="showcase-category">
+          <h3>Special Circuits</h3>
+          <div class="showcase-grid">
+            <div class="circuit-card" data-circuit="schmitt-trigger">
+              <div class="circuit-image">
+                <img src="images/schmitt_trigger.svg" alt="Schmitt Trigger">
+              </div>
+              <div class="circuit-info">
+                <h4>Schmitt Trigger</h4>
+                <p>Hysteresis-based voltage comparator</p>
+              </div>
+            </div>
+            <div class="circuit-card" data-circuit="sequential-logic">
+              <div class="circuit-image">
+                <img src="images/sequential_logic.svg" alt="Sequential Logic">
+              </div>
+              <div class="circuit-info">
+                <h4>Sequential Logic</h4>
+                <p>D flip-flop-based sequential circuit</p>
+              </div>
+            </div>
+            <div class="circuit-card" data-circuit="pll">
+              <div class="circuit-image">
+                <img src="images/pll.svg" alt="Phase-Locked Loop">
+              </div>
+              <div class="circuit-info">
+                <h4>Phase-Locked Loop</h4>
+                <p>Frequency synchronization circuit</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Circuit Modal -->
+    <div class="circuit-modal" id="circuitModal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-body">
+          <div class="modal-image">
+            <img id="modalImage" src="" alt="Circuit Diagram">
+          </div>
+          <div class="modal-details">
+            <h3 id="modalTitle"></h3>
+            <div class="modal-tabs">
+              <button class="modal-tab active" data-tab="description">Description</button>
+              <button class="modal-tab" data-tab="formulas">Key Formulas</button>
+              <button class="modal-tab" data-tab="instructions">Instructions</button>
+            </div>
+            <div class="modal-tab-content active" id="description">
+              <p id="modalDescription"></p>
+            </div>
+            <div class="modal-tab-content" id="formulas">
+              <div id="modalFormulas"></div>
+            </div>
+            <div class="modal-tab-content" id="instructions">
+              <ol id="modalInstructions"></ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Recent Activity Section -->
+    <section class="section activity-section">
+      <h2>Recent Activity</h2>
+      <div class="activity-timeline">
+        <div class="activity-item">
+          <div class="activity-icon completed"></div>
+          <div class="activity-content">
+            <h3>MOSFET Amplifier Simulation</h3>
+            <p class="activity-time">Yesterday at 2:30 PM</p>
+            <p class="activity-details">Completed with 92% efficiency</p>
+          </div>
+          <div class="activity-actions">
+            <button class="action-btn">View Results</button>
+          </div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon in-progress"></div>
+          <div class="activity-content">
+            <h3>Common Source Amplifier</h3>
+            <p class="activity-time">Today at 10:15 AM</p>
+            <p class="activity-details">In progress - 65% completed</p>
+          </div>
+          <div class="activity-actions">
+            <button class="action-btn">Continue</button>
+          </div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon pending"></div>
+          <div class="activity-content">
+            <h3>Current Mirror Circuit</h3>
+            <p class="activity-time">Assigned on Apr 5, 2023</p>
+            <p class="activity-details">Not started yet</p>
+          </div>
+          <div class="activity-actions">
+            <button class="action-btn">Start</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Experiments and Recommendations Section -->
+    <div class="experiments-container">
+      <!-- My Experiments Section -->
+      <section class="section experiments-section">
+        <h2>My Experiments</h2>
+        <div class="experiments-tabs">
+          <button class="tab-btn active" data-tab="completed">Completed</button>
+          <button class="tab-btn" data-tab="in-progress">In Progress</button>
+          <button class="tab-btn" data-tab="pending">Pending</button>
+        </div>
+        
+        <!-- Completed Experiments Tab -->
+        <div class="tab-content active" id="completed">
+          <div class="experiment-grid">
+            <div class="experiment-card">
+              <div class="experiment-img">
+                <img src="images/mosfet_circuit.svg" alt="MOSFET Simulator">
+              </div>
+              <div class="experiment-details">
+                <h3>MOSFET V-I Characteristics</h3>
+                <p class="experiment-date">Completed on Apr 2, 2023</p>
+                <div class="experiment-stats">
+                  <span class="stat">Grade: A</span>
+                  <span class="stat">Score: 95%</span>
+                </div>
+                <a href="mosfet_simulator.html" class="experiment-link">Review</a>
+              </div>
+            </div>
+            
+            <div class="experiment-card">
+              <div class="experiment-img">
+                <img src="images/bjt_amplifier.svg" alt="BJT Circuit">
+              </div>
+              <div class="experiment-details">
+                <h3>BJT Amplifier</h3>
+                <p class="experiment-date">Completed on Mar 25, 2023</p>
+                <div class="experiment-stats">
+                  <span class="stat">Grade: A-</span>
+                  <span class="stat">Score: 89%</span>
+                </div>
+                <a href="#" class="experiment-link">Review</a>
+              </div>
+            </div>
+            
+            <div class="experiment-card">
+              <div class="experiment-img">
+                <img src="images/inverting_amplifier.svg" alt="Op-Amp Circuit">
+              </div>
+              <div class="experiment-details">
+                <h3>Inverting Amplifier</h3>
+                <p class="experiment-date">Completed on Mar 15, 2023</p>
+                <div class="experiment-stats">
+                  <span class="stat">Grade: B+</span>
+                  <span class="stat">Score: 87%</span>
+                </div>
+                <a href="#" class="experiment-link">Review</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="view-more">
+            <button class="secondary-btn">View All Completed (12)</button>
+          </div>
+        </div>
+        
+        <!-- In Progress Experiments Tab -->
+        <div class="tab-content" id="in-progress">
+          <div class="experiment-grid">
+            <div class="experiment-card">
+              <div class="experiment-img">
+                <div class="progress-overlay">65% Complete</div>
+                <img src="images/common_source.svg" alt="Common Source Amplifier">
+              </div>
+              <div class="experiment-details">
+                <h3>Common Source Amplifier</h3>
+                <p class="experiment-date">Started on Apr 4, 2023</p>
+                <div class="experiment-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 65%"></div>
+                  </div>
+                </div>
+                <a href="#" class="experiment-link">Continue</a>
+              </div>
+            </div>
+            
+            <div class="experiment-card">
+              <div class="experiment-img">
+                <div class="progress-overlay">30% Complete</div>
+                <img src="images/cmos_inverter.svg" alt="CMOS Inverter">
+              </div>
+              <div class="experiment-details">
+                <h3>CMOS Inverter</h3>
+                <p class="experiment-date">Started on Apr 3, 2023</p>
+                <div class="experiment-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%"></div>
+                  </div>
+                </div>
+                <a href="#" class="experiment-link">Continue</a>
+              </div>
+            </div>
+            
+            <div class="experiment-card">
+              <div class="experiment-img">
+                <div class="progress-overlay">15% Complete</div>
+                <img src="images/active_filter.svg" alt="Active Filter Design">
+              </div>
+              <div class="experiment-details">
+                <h3>Active Filter Design</h3>
+                <p class="experiment-date">Started on Apr 1, 2023</p>
+                <div class="experiment-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 15%"></div>
+                  </div>
+                </div>
+                <a href="#" class="experiment-link">Continue</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pending Experiments Tab -->
+        <div class="tab-content" id="pending">
+          <div class="experiment-grid">
+            <div class="experiment-card">
+              <div class="experiment-img pending-img">
+                <img src="images/current_mirror.svg" alt="Current Mirror Circuit">
+              </div>
+              <div class="experiment-details">
+                <h3>Current Mirror Circuit</h3>
+                <p class="experiment-date">Due by Apr 15, 2023</p>
+                <p class="experiment-difficulty">Difficulty: Intermediate</p>
+                <a href="#" class="experiment-link">Start</a>
+              </div>
+            </div>
+            
+            <div class="experiment-card">
+              <div class="experiment-img pending-img">
+                <img src="images/differential_amplifier.svg" alt="Differential Amplifier">
+              </div>
+              <div class="experiment-details">
+                <h3>Differential Amplifier</h3>
+                <p class="experiment-date">Due by Apr 20, 2023</p>
+                <p class="experiment-difficulty">Difficulty: Advanced</p>
+                <a href="#" class="experiment-link">Start</a>
+              </div>
+            </div>
+            
+            <div class="experiment-card">
+              <div class="experiment-img pending-img">
+                <img src="images/sequential_logic.svg" alt="Digital Logic">
+              </div>
+              <div class="experiment-details">
+                <h3>Sequential Logic Circuits</h3>
+                <p class="experiment-date">Due by Apr 25, 2023</p>
+                <p class="experiment-difficulty">Difficulty: Intermediate</p>
+                <a href="#" class="experiment-link">Start</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Recommended Section -->
+      <section class="section recommended-section">
+        <h2>Recommended For You</h2>
+        <div class="recommended-list">
+          <div class="recommended-item">
+            <div class="recommended-img">
+              <img src="images/pll.svg" alt="PLL Circuit">
+            </div>
+            <div class="recommended-details">
+              <h3>Phase-Locked Loop</h3>
+              <p>Based on your interest in oscillators</p>
+            </div>
+            <button class="action-btn small">Add to List</button>
+          </div>
+          
+          <div class="recommended-item">
+            <div class="recommended-img">
+              <img src="images/jfet.svg" alt="JFET Circuit">
+            </div>
+            <div class="recommended-details">
+              <h3>JFET Characteristics</h3>
+              <p>Related to your MOSFET studies</p>
+            </div>
+            <button class="action-btn small">Add to List</button>
+          </div>
+          
+          <div class="recommended-item">
+            <div class="recommended-img">
+              <img src="images/schmitt_trigger.svg" alt="Schmitt Trigger">
+            </div>
+            <div class="recommended-details">
+              <h3>Schmitt Trigger Design</h3>
+              <p>Popular among EE students</p>
+            </div>
+            <button class="action-btn small">Add to List</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="footer-content">
+      <div class="footer-nav">
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <p>&copy; <span id="currentYear"></span> Electronic Circuit Simulation Lab - Shree L.R Tiwari College Of Engineering</p>
+    </div>
+  </footer>
+</body>
+</html> 

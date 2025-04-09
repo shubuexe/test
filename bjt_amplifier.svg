@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300">
+  <!-- Background -->
+  <rect x="0" y="0" width="600" height="300" fill="#f8fafc" />
+  
+  <!-- Title -->
+  <text x="300" y="30" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">BJT Common Emitter Amplifier</text>
+  
+  <!-- BJT Transistor -->
+  <g transform="translate(250,150)">
+    <!-- Collector -->
+    <line x1="0" y1="-35" x2="0" y2="-15" stroke="#1e293b" stroke-width="2" />
+    <!-- Base -->
+    <line x1="-30" y1="0" x2="-10" y2="0" stroke="#1e293b" stroke-width="2" />
+    <!-- Emitter -->
+    <line x1="0" y1="15" x2="0" y2="35" stroke="#1e293b" stroke-width="2" />
+    <!-- Transistor body -->
+    <line x1="-10" y1="-15" x2="-10" y2="15" stroke="#1e293b" stroke-width="2" />
+    <circle cx="0" cy="0" r="15" fill="none" stroke="#1e293b" stroke-width="1.5" />
+    <!-- Arrow for NPN -->
+    <path d="M-2,10 L5,18 L10,13" fill="none" stroke="#1e293b" stroke-width="1.5" />
+    <!-- Labels -->
+    <text x="10" y="-20" font-family="Arial" font-size="10" text-anchor="start">C</text>
+    <text x="-20" y="5" font-family="Arial" font-size="10" text-anchor="middle">B</text>
+    <text x="10" y="20" font-family="Arial" font-size="10" text-anchor="start">E</text>
+  </g>
+  
+  <!-- Power Supply (VCC) -->
+  <g transform="translate(250,60)">
+    <circle cx="0" cy="0" r="15" fill="white" stroke="#2563eb" stroke-width="1.5" />
+    <text x="0" y="4" font-family="Arial" font-size="10" text-anchor="middle">VCC</text>
+  </g>
+  
+  <!-- Input Source -->
+  <g transform="translate(130,150)">
+    <circle cx="0" cy="0" r="15" fill="white" stroke="#2563eb" stroke-width="1.5" />
+    <text x="0" y="4" font-family="Arial" font-size="10" text-anchor="middle">Vin</text>
+  </g>
+  
+  <!-- Collector Resistor (RC) -->
+  <g transform="translate(250,100)">
+    <path d="M0,0 L-5,3 L5,9 L-5,15 L5,21 L-5,27 L0,30" fill="none" stroke="#1e293b" stroke-width="1.5" />
+    <text x="15" y="15" font-family="Arial" font-size="10">RC</text>
+  </g>
+  
+  <!-- Base Resistor (RB) -->
+  <g transform="translate(190,150)">
+    <path d="M0,0 L-5,3 L5,9 L-5,15 L5,21 L-5,27 L0,30" fill="none" stroke="#1e293b" stroke-width="1.5" transform="rotate(90)" />
+    <text x="0" y="-10" font-family="Arial" font-size="10">RB</text>
+  </g>
+  
+  <!-- Emitter Resistor (RE) -->
+  <g transform="translate(250,200)">
+    <path d="M0,0 L-5,3 L5,9 L-5,15 L5,21 L-5,27 L0,30" fill="none" stroke="#1e293b" stroke-width="1.5" />
+    <text x="15" y="15" font-family="Arial" font-size="10">RE</text>
+  </g>
+  
+  <!-- Coupling Capacitor (Input) -->
+  <g transform="translate(160,150)">
+    <line x1="-5" y1="-10" x2="-5" y2="10" stroke="#1e293b" stroke-width="1.5" />
+    <line x1="5" y1="-10" x2="5" y2="10" stroke="#1e293b" stroke-width="1.5" />
+    <text x="0" y="-15" font-family="Arial" font-size="10" text-anchor="middle">Cin</text>
+  </g>
+  
+  <!-- Output Coupling Capacitor -->
+  <g transform="translate(325,150)">
+    <line x1="-5" y1="-10" x2="-5" y2="10" stroke="#1e293b" stroke-width="1.5" />
+    <line x1="5" y1="-10" x2="5" y2="10" stroke="#1e293b" stroke-width="1.5" />
+    <text x="0" y="-15" font-family="Arial" font-size="10" text-anchor="middle">Cout</text>
+  </g>
+  
+  <!-- Output Load -->
+  <g transform="translate(370,150)">
+    <path d="M0,-15 L-5,-12 L5,-6 L-5,0 L5,6 L-5,12 L0,15" fill="none" stroke="#1e293b" stroke-width="1.5" />
+    <text x="15" y="5" font-family="Arial" font-size="10">RL</text>
+  </g>
+  
+  <!-- Output Signal -->
+  <g transform="translate(420,150)">
+    <circle cx="0" cy="0" r="15" fill="white" stroke="#2563eb" stroke-width="1.5" />
+    <text x="0" y="4" font-family="Arial" font-size="10" text-anchor="middle">Vout</text>
+  </g>
+  
+  <!-- Ground Symbols -->
+  <g transform="translate(250,250)">
+    <line x1="0" y1="0" x2="0" y2="5" stroke="#1e293b" stroke-width="1.5" />
+    <line x1="-10" y1="5" x2="10" y2="5" stroke="#1e293b" stroke-width="1.5" />
+    <line x1="-7" y1="9" x2="7" y2="9" stroke="#1e293b" stroke-width="1.5" />
+    <line x1="-3" y1="13" x2="3" y2="13" stroke="#1e293b" stroke-width="1.5" />
+  </g>
+  
+  <g transform="translate(370,190)">
+    <line x1="0" y1="0" x2="0" y2="5" stroke="#1e293b" stroke-width="1.5" />
+    <line x1="-10" y1="5" x2="10" y2="5" stroke="#1e293b" stroke-width="1.5" />
+    <line x1="-7" y1="9" x2="7" y2="9" stroke="#1e293b" stroke-width="1.5" />
+    <line x1="-3" y1="13" x2="3" y2="13" stroke="#1e293b" stroke-width="1.5" />
+  </g>
+  
+  <!-- Connecting Wires -->
+  <g stroke="#1e293b" stroke-width="1.5">
+    <!-- VCC to RC -->
+    <line x1="250" y1="75" x2="250" y2="100" />
+    <!-- RC to Collector -->
+    <line x1="250" y1="130" x2="250" y2="115" />
+    <!-- Base Connection -->
+    <line x1="145" y1="150" x2="165" y2="150" />
+    <line x1="175" y1="150" x2="190" y2="150" />
+    <line x1="220" y1="150" x2="220" y2="150" />
+    <!-- Emitter to RE -->
+    <line x1="250" y1="185" x2="250" y2="200" />
+    <!-- RE to Ground -->
+    <line x1="250" y1="230" x2="250" y2="250" />
+    <!-- Collector to Output Capacitor -->
+    <line x1="250" y1="150" x2="320" y2="150" />
+    <!-- Output Capacitor to Load -->
+    <line x1="330" y1="150" x2="355" y2="150" />
+    <!-- Load to Output -->
+    <line x1="385" y1="150" x2="405" y2="150" />
+    <!-- Load to Ground -->
+    <line x1="370" y1="165" x2="370" y2="190" />
+  </g>
+  
+  <!-- Parameters Box -->
+  <g transform="translate(450, 80)">
+    <rect x="0" y="0" width="120" height="60" rx="5" ry="5" fill="white" stroke="#2563eb" stroke-width="1" />
+    <text x="10" y="20" font-family="Arial" font-size="10" font-weight="bold">Amplifier Parameters:</text>
+    <text x="10" y="40" font-family="Arial" font-size="8">RC = 1kΩ, RB = 10kΩ</text>
+    <text x="10" y="55" font-family="Arial" font-size="8">RE = 100Ω, β = 100</text>
+  </g>
+  
+  <!-- Circuit Characteristics -->
+  <g transform="translate(450, 160)">
+    <rect x="0" y="0" width="120" height="80" rx="5" ry="5" fill="white" stroke="#2563eb" stroke-width="1" />
+    <text x="10" y="20" font-family="Arial" font-size="10" font-weight="bold">Characteristics:</text>
+    <text x="10" y="40" font-family="Arial" font-size="8">Voltage Gain: ~50</text>
+    <text x="10" y="55" font-family="Arial" font-size="8">Input Impedance: ~1kΩ</text>
+    <text x="10" y="70" font-family="Arial" font-size="8">Bandwidth: 20Hz-100kHz</text>
+  </g>
+</svg> 

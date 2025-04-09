@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact Us - Electronic Circuit Simulation Lab">
+  <title>Contact Us - Electronic Circuit Simulation Lab</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="home.js" defer></script>
+</head>
+<body>
+  <!-- Profile Sidebar -->
+  <div class="profile-sidebar" id="profileSidebar">
+    <div class="profile-content">
+      <button class="close-sidebar" id="closeSidebar">&times;</button>
+      <div class="sidebar-avatar">
+        <img src="images/avatar.jpg" alt="User Profile Avatar">
+      </div>
+      <div class="profile-header">
+        <div class="profile-info">
+          <h2>Shubham Patel</h2>
+          <div class="user-level">ADVANCED LEVEL</div>
+          <p class="user-title">Electronics and Computer Science Engineering Student</p>
+          <div class="progress-container">
+            <span>Progress to next level:</span>
+            <span>75%</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 75%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="profile-stats">
+        <div class="stat-card">
+          <span class="stat-value">12</span>
+          <span class="stat-label">Completed</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">3</span>
+          <span class="stat-label">In Progress</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Pending</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Page Overlay -->
+  <div class="page-overlay" id="pageOverlay"></div>
+  
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-content">
+      <div class="logo-container">
+        <h1 class="site-title">Electronic Circuit Simulation Lab</h1>
+        <p class="college-name">Shree L.R Tiwari College Of Engineering</p>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="mosfet_simulator.html">MOSFET Simulator</a></li>
+          <li><a href="#">BJT Simulator</a></li>
+          <li><a href="#">Op-Amp Circuits</a></li>
+          <li><a href="#">Logic Gates</a></li>
+        </ul>
+      </nav>
+      <!-- Avatar Toggle Button -->
+      <div class="avatar-toggle" id="profileAvatar">
+        <img src="images/avatar.jpg" alt="User Profile Avatar">
+      </div>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <main class="container">
+    <section class="content-section">
+      <h1>Contact Us</h1>
+      
+      <div class="contact-content">
+        <div class="contact-info-container">
+          <section class="contact-info">
+            <h2>Get in Touch</h2>
+            <p>Have questions about our circuit simulations? Interested in using our platform for your institution? We'd love to hear from you!</p>
+            
+            <div class="contact-details">
+              <div class="contact-item">
+                <h3>Email</h3>
+                <p><a href="mailto:contact@lrtce-circuitlab.edu.in">contact@lrtce-circuitlab.edu.in</a></p>
+              </div>
+              
+              <div class="contact-item">
+                <h3>Phone</h3>
+                <p>+91 22 1234 5678</p>
+                <p>Monday to Friday, 9:00 AM - 5:00 PM IST</p>
+              </div>
+              
+              <div class="contact-item">
+                <h3>Address</h3>
+                <address>
+                  Electronic Circuit Simulation Lab<br>
+                  Department of Electronics and Computer Science<br>
+                  Shree L.R Tiwari College Of Engineering<br>
+                  Mira Road, Mumbai - 401107<br>
+                  Maharashtra, India
+                </address>
+              </div>
+            </div>
+            
+            <div class="contact-team">
+              <h3>Lab Administrators</h3>
+              <p><strong>Shubham Patel</strong> - Lead Developer<br>
+              <a href="mailto:shubham.patel@lrtce-circuitlab.edu.in">shubham.patel@lrtce-circuitlab.edu.in</a></p>
+              
+              <p><strong>Himanshu Sharma</strong> - Educational Director<br>
+              <a href="mailto:himanshu.sharma@lrtce-circuitlab.edu.in">himanshu.sharma@lrtce-circuitlab.edu.in</a></p>
+            </div>
+          </section>
+          
+          <section class="visit-us">
+            <h2>Visit Us</h2>
+            <div class="map-container">
+              <div class="map-placeholder">
+                <p>Map of Shree L.R Tiwari College Of Engineering</p>
+                <p class="map-note">Interactive map loading...</p>
+              </div>
+              <p class="directions">The Electronic Circuit Simulation Lab is located in the Main Building, 3rd Floor, Room 304.</p>
+            </div>
+          </section>
+        </div>
+        
+        <section class="contact-form-section">
+          <h2>Send Us a Message</h2>
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label for="name">Your Name *</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Your Email *</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <input type="text" id="subject" name="subject" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" name="category">
+                <option value="general">General Inquiry</option>
+                <option value="technical">Technical Support</option>
+                <option value="feedback">Feedback</option>
+                <option value="partnership">Partnership Opportunity</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="message">Your Message *</label>
+              <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+            
+            <div class="form-group form-checkbox">
+              <input type="checkbox" id="consent" name="consent" required>
+              <label for="consent">I consent to having this website store my submitted information so they can respond to my inquiry. See our <a href="privacy-policy.html">Privacy Policy</a> to learn more about how we use data.</label>
+            </div>
+            
+            <button type="submit" class="primary-btn">Send Message</button>
+          </form>
+        </section>
+      </div>
+      
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-list">
+          <div class="faq-item">
+            <h3>How can I report a bug in one of the simulations?</h3>
+            <p>If you encounter any issues or bugs while using our circuit simulations, please use the contact form above and select "Technical Support" from the dropdown menu. Include details about the specific simulation, the steps to reproduce the issue, and any error messages you received.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Can I use the circuit simulations for my classroom?</h3>
+            <p>Yes! We encourage educators to use our platform for teaching purposes. If you'd like to use the Electronic Circuit Simulation Lab in your classroom, please reach out to us through the contact form or email us directly. We can provide guidance on how to integrate our tools into your curriculum.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Are there any fees for using the platform?</h3>
+            <p>The Electronic Circuit Simulation Lab is currently free for students and faculty of Shree L.R Tiwari College Of Engineering and our partner institutions. For other educational institutions, we offer reasonable subscription plans. Contact us for details.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>How can I suggest a new circuit simulation?</h3>
+            <p>We're always looking to expand our library of simulations! Please send us your suggestions through the contact form or email us directly. Include as much detail as possible about the circuit you'd like to see added.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Do you offer tutorials or training sessions?</h3>
+            <p>Yes, we regularly conduct online and in-person workshops for students and educators. Check our home page for upcoming events or contact us to schedule a training session for your institution.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="footer-content">
+      <div class="footer-nav">
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html" class="active">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <p>&copy; <span id="currentYear"></span> Electronic Circuit Simulation Lab - Shree L.R Tiwari College Of Engineering</p>
+    </div>
+  </footer>
+</body>
+</html> 
