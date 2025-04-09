@@ -1,75 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>About | Virtual Electronics Lab</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    h1 {
-      color: #007acc;
-    }
-    .image-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    .image-gallery img {
-      width: 300px;
-      height: auto;
-      border: 1px solid #ccc;
-      padding: 10px;
-      background: white;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-    }
-    .caption {
-      font-size: 0.9rem;
-      text-align: center;
-      margin-top: 5px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About Us - Electronic Circuit Simulation Lab">
+  <title>About Us - Electronic Circuit Simulation Lab</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="home.js" defer></script>
 </head>
 <body>
-
-  <h1>About the Virtual Electronics Lab</h1>
-  <p>
-    This project is a web-based virtual electronics lab designed to help students simulate and learn fundamental circuits 
-    without needing physical components. The lab supports interactive diagrams and multiple experiments for learning analog 
-    and digital electronics.
-  </p>
-
-  <div class="image-gallery">
-    <div>
-      <img src="bjt_amplifier.svg" alt="BJT Amplifier">
-      <div class="caption">BJT Amplifier</div>
+  <!-- Profile Sidebar -->
+  <div class="profile-sidebar" id="profileSidebar">
+    <div class="profile-content">
+      <button class="close-sidebar" id="closeSidebar">&times;</button>
+      <div class="sidebar-avatar">
+        <img src="images/avatar.jpg" alt="User Profile Avatar">
+      </div>
+      <div class="profile-header">
+        <div class="profile-info">
+          <h2>Shubham Patel</h2>
+          <div class="user-level">ADVANCED LEVEL</div>
+          <p class="user-title">Electronics and Computer Science Engineering Student</p>
+          <div class="progress-container">
+            <span>Progress to next level:</span>
+            <span>75%</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 75%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="profile-stats">
+        <div class="stat-card">
+          <span class="stat-value">12</span>
+          <span class="stat-label">Completed</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">3</span>
+          <span class="stat-label">In Progress</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Pending</span>
+        </div>
+      </div>
     </div>
-    <div>
-      <img src="current_mirror.svg" alt="Current Mirror">
-      <div class="caption">Current Mirror</div>
-    </div>
-    <div>
-      <img src="differential_amplifier.svg" alt="Differential Amplifier">
-      <div class="caption">Differential Amplifier</div>
-    </div>
-    <div>
-      <img src="cmos_inverter.svg" alt="CMOS Inverter">
-      <div class="caption">CMOS Inverter</div>
-    </div>
-    <div>
-      <img src="common_source.svg" alt="Common Source Amplifier">
-      <div class="caption">Common Source Amplifier</div>
-    </div>
-    <div>
-      <img src="active_filter.svg" alt="Active Filter">
-      <div class="caption">Active Filter</div>
-    </div>
-    <!-- Add more images as needed -->
   </div>
+  
+  <!-- Page Overlay -->
+  <div class="page-overlay" id="pageOverlay"></div>
+  
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-content">
+      <div class="logo-container">
+        <h1 class="site-title">Electronic Circuit Simulation Lab</h1>
+        <p class="college-name">Shree L.R Tiwari College Of Engineering</p>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="mosfet_simulator.html">MOSFET Simulator</a></li>
+          <li><a href="#">BJT Simulator</a></li>
+          <li><a href="#">Op-Amp Circuits</a></li>
+          <li><a href="#">Logic Gates</a></li>
+        </ul>
+      </nav>
+      <div class="avatar-toggle" id="profileAvatar">
+        <img src="images/avatar.jpg" alt="User Profile Avatar">
+      </div>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <main class="container">
+    <section class="content-section">
+      <h1>About Us</h1>
+      
+      <div class="about-content">
+        <section class="about-section">
+          <h2>Our Mission</h2>
+          <p>The Electronic Circuit Simulation Lab at Shree L.R Tiwari College Of Engineering is dedicated to providing an accessible, interactive platform for students and educators to learn, experiment with, and master electronic circuit design and analysis.</p>
+        </section>
 
+        <section class="about-section">
+          <h2>Our Story</h2>
+          <p>Founded in 2021 by Shubham Patel and Himanshu Sharma, the Electronic Circuit Simulation Lab began as a final-year project. What started as a tool to help fellow students understand complex circuit behaviors has grown into a comprehensive platform.</p>
+        </section>
+
+        <section class="about-section about-founders">
+          <h2>Our Team</h2>
+          <div class="founder-card">
+            <div class="founder-details">
+              <h3>Shubham Patel</h3>
+              <p class="founder-title">Co-Founder & Lead Developer</p>
+              <p>Electronics and Computer Science graduate. Leads the technical development of the simulation platform.</p>
+            </div>
+          </div>
+
+          <div class="founder-card">
+            <div class="founder-details">
+              <h3>Himanshu Sharma</h3>
+              <p class="founder-title">Co-Founder & Educational Director</p>
+              <p>Specializes in analog design and education. Oversees content accuracy and learner experience.</p>
+            </div>
+          </div>
+
+          <div class="team-support">
+            <h3>With Support From</h3>
+            <p>Faculty of Electronics and Computer Science at Shree L.R Tiwari College Of Engineering.</p>
+          </div>
+        </section>
+
+        <!-- SVG Illustration Section -->
+        <section class="about-section">
+          <h2>Our Simulations</h2>
+          <p>Here are some of the circuit simulations available in our lab:</p>
+          <div class="image-gallery" style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <div>
+              <img src="images/bjt_amplifier.svg" alt="BJT Amplifier" width="300">
+              <p style="text-align: center;">BJT Amplifier</p>
+            </div>
+            <div>
+              <img src="images/current_mirror.svg" alt="Current Mirror" width="300">
+              <p style="text-align: center;">Current Mirror</p>
+            </div>
+            <div>
+              <img src="images/differential_amplifier.svg" alt="Differential Amplifier" width="300">
+              <p style="text-align: center;">Differential Amplifier</p>
+            </div>
+            <div>
+              <img src="images/cmos_inverter.svg" alt="CMOS Inverter" width="300">
+              <p style="text-align: center;">CMOS Inverter</p>
+            </div>
+            <div>
+              <img src="images/common_source.svg" alt="Common Source Amplifier" width="300">
+              <p style="text-align: center;">Common Source Amplifier</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="about-section">
+          <h2>Our Approach</h2>
+          <p>We believe in learning by doing. Our simulations allow users to:</p>
+          <ul>
+            <li>Experiment with circuit parameters</li>
+            <li>Visualize behaviors with dynamic graphics</li>
+            <li>Advance from basic to complex concepts</li>
+            <li>Test knowledge with challenges</li>
+          </ul>
+        </section>
+
+        <section class="about-section">
+          <h2>Educational Impact</h2>
+          <ul>
+            <li>Served over 500 students</li>
+            <li>Adopted by 12 engineering colleges</li>
+            <li>10,000+ simulations run</li>
+            <li>Recognized by IEEE Student Branch</li>
+          </ul>
+        </section>
+
+        <section class="about-section">
+          <h2>Our Vision</h2>
+          <p>We aim to expand our simulations and reach students globally with accessible electronics education.</p>
+        </section>
+
+        <section class="about-section">
+          <h2>The Institution</h2>
+          <p>Shree L.R Tiwari College Of Engineering is a premier institution in Mumbai, promoting innovation and hands-on learning.</p>
+        </section>
+
+        <section class="about-section">
+          <h2>Get Involved</h2>
+          <p>We welcome feedback, suggestions, and collaboration. If you have ideas or want to contribute, <a href="contact.html">contact us</a>.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="footer-content">
+      <div class="footer-nav">
+        <ul>
+          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <p>&copy; <span id="currentYear"></span> Electronic Circuit Simulation Lab - Shree L.R Tiwari College Of Engineering</p>
+    </div>
+  </footer>
 </body>
 </html>
